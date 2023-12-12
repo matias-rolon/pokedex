@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import {
   IonContent,
   IonPage,
@@ -8,40 +8,12 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
 } from '@ionic/react';
-import { getPokemonList } from '../services/api';
+import { usePokemonList } from '../hooks/usePokemonList';
 import PokemonItem from './PokemonItem';
 
 const PokemonList: React.FC = () => {
-  const [pokemonList, setPokemonList] = useState<any[]>([]);
-  const [offset, setOffset] = useState(0);
-  const limit = 10;
-  const [disableInfiniteScroll, setDisableInfiniteScroll] = useState(false);
 
-  const loadPokemon = async () => {
-    const data = await getPokemonList(offset, limit);
-    setPokemonList((prevList) => [...prevList, ...data.results]);
-    setOffset((prevOffset) => prevOffset + limit);
-  };
-
-  const loadMorePokemon = useCallback(
-    async (event:any) => {
-      if (disableInfiniteScroll) {
-        event.target.complete();
-        return;
-      }
-
-      await loadPokemon();
-      setTimeout(() => {
-        event.target.complete();
-
-        // Check if there are more items to load
-        if (pokemonList.length >= 150) {
-          setDisableInfiniteScroll(true);
-        }
-      }, 500);
-    },
-    [disableInfiniteScroll, loadPokemon, pokemonList.length]
-  );
+    const {loadMorePokemon, loadPokemon, offset, pokemonList, disableInfiniteScroll} = usePokemonList();
 
   useEffect(() => {
     const fetchData = async () => {
