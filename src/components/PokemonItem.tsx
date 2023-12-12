@@ -5,10 +5,11 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonCardContent,
-  IonItem,
   IonLabel,
 } from '@ionic/react';
 import { getPokemonDetails } from '../services/api';
+
+import './styles/pokemonItem.css'
 
 interface PokemonItemProps {
   id: number;
@@ -19,6 +20,7 @@ const PokemonItem: React.FC<PokemonItemProps> = ({ id }) => {
 
   useEffect(() => {
     loadPokemonDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadPokemonDetails = async () => {
@@ -27,25 +29,30 @@ const PokemonItem: React.FC<PokemonItemProps> = ({ id }) => {
   };
 
   return (
-    <IonItem>
+    <>
       {pokemonDetails && (
-        <IonCard>
-          <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} alt={`Pokemon ${id}`} />
+        <IonCard className='card-pokemon'>
+          <div className='contain-img-pokemon'>
+
+            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`} alt={`Pokemon ${id}`} />
+          </div>
           <IonCardHeader>
-            <IonCardTitle>{pokemonDetails.name}</IonCardTitle>
             <IonCardSubtitle>#{id}</IonCardSubtitle>
+            <IonCardTitle className='name'>{pokemonDetails.name}</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonLabel>Experiencia: {pokemonDetails.base_experience}</IonLabel>
-            <IonLabel>Altura: {pokemonDetails.height}</IonLabel>
-            <IonLabel>Peso: {pokemonDetails.weight}</IonLabel>
+            <p>Experiencia: {pokemonDetails.base_experience}</p>
+            <p>Altura: {pokemonDetails.height}</p>
+            <p>Peso: {pokemonDetails.weight}</p>
             <IonLabel>
               Abilidades: {pokemonDetails.abilities.map((ability: any) => ability.ability.name).join(', ')}
             </IonLabel>
+            {pokemonDetails.category}
           </IonCardContent>
         </IonCard>
       )}
-    </IonItem>
+    </>
+
   );
 };
 

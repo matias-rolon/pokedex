@@ -1,0 +1,16 @@
+.contain-img-header{
+    width: 100%;
+    text-align: center;
+    background-color: #e3350d;
+    background: linear-gradient(to bottom, #a72609, #F44336);
+
+    padding: 10px;
+}
+
+.img-header {
+    width: 200px;
+}
+
+.content-pokemons {
+    background-color: #F44336;
+}
